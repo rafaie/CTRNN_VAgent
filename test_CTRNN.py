@@ -1,6 +1,6 @@
 import unittest
 import math
-from utils import sigmoid, inverseSigmoid
+from utils import sigmoid, inverse_sigmoid
 
 
 class TestCTRNN(unittest.TestCase):
@@ -10,4 +10,4 @@ class TestCTRNN(unittest.TestCase):
         self.assertEqual(math.ceil(sigmoid(12)), 1)
 
     def test_inverseSigmoid(self):
-        self.assertEqual(math.floor(inverseSigmoid(0.5)), 0)
+        self.assertEqual(math.floor(inverse_sigmoid(0.5)), 0)
