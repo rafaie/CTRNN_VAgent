@@ -1,5 +1,6 @@
 from utils import sigmoid, inverse_sigmoid
 
+
 class CTRNN:
         def __init__(self, new_size=0):
             pass
@@ -21,49 +22,87 @@ class CTRNN:
         # double &NeuronStateReference(int i) {return states[i];};
 
         def set_neuron_state(self, i, value):
-            states[i] = value
-            outputs[i] = sigmoid(gains[i]*(states[i] + biases[i]))
+            self.states[i] = value
+            self.outputs[i] = sigmoid(self.gains[i]*(self.states[i] +
+                                      self.biases[i]))
 
         def neuron_output(self, i):
-            return outputs[i]
+            return self.outputs[i]
 
         # double &NeuronOutputReference(int i) {return outputs[i];};
 
-        def set_neuron_output(int i, double value)
-            {outputs[i] = value; states[i] = InverseSigmoid(value)/gains[i] - biases[i];};
-        double NeuronBias(int i) {return biases[i];};
-        void SetNeuronBias(int i, double value) {biases[i] = value;};
-        double NeuronGain(int i) {return gains[i];};
-        void SetNeuronGain(int i, double value) {gains[i] = value;};
-        double NeuronTimeConstant(int i) {return taus[i];};
-        void SetNeuronTimeConstant(int i, double value) {taus[i] = value;Rtaus[i] = 1/value;};
-        double NeuronExternalInput(int i) {return externalinputs[i];};
-        double &NeuronExternalInputReference(int i) {return externalinputs[i];};
-        void SetNeuronExternalInput(int i, double value) {externalinputs[i] = value;};
-        double ConnectionWeight(int from, int to) {return weights[from][to];};
-        void SetConnectionWeight(int from, int to, double value) {weights[from][to] = value;};
-        void LesionNeuron(int n)
-        {
-            for (int i = 1; i<= size; i++) {
-                SetConnectionWeight(i,n,0);
-                SetConnectionWeight(n,i,0);
-            }
-        }
-        void SetCenterCrossing(void);
+        def set_neuron_output(self, i, value):
+            self.outputs[i] = value
+            self.states[i] = inverse_sigmoid(value)/self.gains[i] - \
+                self.iases[i]
 
-        // Input and output
-        friend ostream& operator<<(ostream& os, CTRNN& c);
-        friend istream& operator>>(istream& is, CTRNN& c);
+        def neuron_bias(self, i):
+            return self.biases[i]
 
-        // Control
-        void RandomizeCircuitState(double lb, double ub);
-        void RandomizeCircuitState(double lb, double ub, RandomState &rs);
-        void RandomizeCircuitOutput(double lb, double ub);
-        void RandomizeCircuitOutput(double lb, double ub, RandomState &rs);
-        void EulerStep(double stepsize);
-        void RK4Step(double stepsize);
+        def set_neuron_bias(self, i, value):
+            self.biases[i] = value
 
-        int size;
-        TVector<double> states, outputs, biases, gains, taus, Rtaus, externalinputs;
-        TMatrix<double> weights;
-        TVector<double> TempStates,TempOutputs,k1,k2,k3,k4;
+        def neuron_gain(self, i):
+            self.gains[i]
+
+        def set_neuron_gain(self, i, value):
+            self.gains[i] = value
+
+        def neuron_time_constant(self, i):
+            return self.taus[i]
+
+        def set_neuron_time_constant(self, i, value):
+            self.taus[i] = value
+            self.Rtaus[i] = 1/value
+
+        def neuron_external_input(self, i):
+            return self.external_inputs[i]
+
+        # double &NeuronExternalInputReference(int i)
+        # {return externalinputs[i];};
+
+        def set_neuron_external_input(self, i, value):
+            self.external_inputs[i] = value
+
+        def connection_weight(self, i, j):
+            return self.weights[i][j]
+
+        def set_connection_weight(self, i, j, value):
+            self.weights[i][j] = value
+
+        def lesion_neuron(self, n):
+            for i in range(1, self.size + 1):
+                self.set_connection_Weight(i, n, 0)
+                self.set_connection_weight(n, i, 0)
+
+        def set_center_crossing(self):
+            pass
+
+        # Input and output
+        # friend ostream& operator<<(ostream& os, CTRNN& c);
+        # friend istream& operator>>(istream& is, CTRNN& c);
+
+        # Control
+        # def randomize_circuit_state(self, lb, ub):
+        #     pass
+
+        def randomize_circuit_state(self, lb, ub, rs):
+            pass
+
+        # def randomize_circuit_output(self, lb, ub):
+            # pass
+
+        def randomize_circuit_output(self, lb, ub, rs):
+            pass
+
+        def euler_step(self, stepsize):
+            pass
+
+        def RK4_step(self, stepsize):
+            pass
+
+        # int size;
+        # TVector<double> states, outputs, biases, gains, taus,
+        # Rtaus, externalinputs;
+        # TMatrix<double> weights;
+        # TVector<double> TempStates,TempOutputs,k1,k2,k3,k4;
