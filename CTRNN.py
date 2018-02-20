@@ -97,18 +97,21 @@ class CTRNN:
         # friend ostream& operator<<(ostream& os, CTRNN& c);
         # friend istream& operator>>(istream& is, CTRNN& c);
 
-        # Control
-        # def randomize_circuit_state(self, lb, ub):
-        #     pass
+        def randomize_circuit_state(self, lb, ub, rs=None):
+            if rs is None:
+                for i in range(self.size):
+                    self.set_neuron_state(i, np.random.uniform(lb, ub))
+            else:
+                for i in range(self.size):
+                    self.set_neuron_state(i, rs.uniform(lb, ub))
 
-        def randomize_circuit_state(self, lb, ub, rs):
-            pass
-
-        # def randomize_circuit_output(self, lb, ub):
-            # pass
-
-        def randomize_circuit_output(self, lb, ub, rs):
-            pass
+        def randomize_circuit_output(self, lb, ub, rs=None):
+            if rs is None:
+                for i in range(self.size):
+                    self.set_neuron_output(i, np.random.uniform(lb, ub))
+            else:
+                for i in range(self.size):
+                    self.set_neuron_output(i, rs.uniform(lb, ub))
 
         def euler_step(self, stepsize):
             pass
