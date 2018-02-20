@@ -113,8 +113,70 @@ class CTRNN:
                 for i in range(self.size):
                     self.set_neuron_output(i, rs.uniform(lb, ub))
 
-        def euler_step(self, stepsize):
-            pass
+        # Integrate a circuit one step using 4th-order Runge-Kutta.
+        def euler_step(self, step_size):
+            # Update the state of all neurons.
+            for i in range(self.size):
+                inp = self.external_inputs[i]
+                for j in range(self.size):
+                    inp += self.weights[j][i] * self.outputs[j]
+                self.states[i] += step_size * self.Rtaus[i] * \
+                    (inp - self.states[i])
 
-        def RK4_step(self, stepsize):
-            pass
+            # Update the outputs of all neurons.
+            for i in range(self.size):
+                self.outputs[i] = sigmoid(self.gains[i] *
+                                          (self.states[i] + self.biases[i]))
+
+        def RK4_step(self, step_size):
+            # The first step.
+            for i in range(self.size):
+                inp = self.externalinputs[i]
+                for j in range(self.size):
+                    inp += self.weights[j][i] * self.outputs[j]
+                self.k1[i] = step_size * self.Rtaus[i] * (inp - self.states[i])
+                self.temp_states[i] = self.states[i] + 0.5 * self.k1[i]
+                self.temp_outputs[i] = sigmoid(self.gains[i] *
+                                               (self.temp_states[i] +
+                                                self.biases[i]))
+
+            # The second step
+            for i in range(self.size):
+                inp = self.external_inputs[i]
+                for j in range(self.size):
+                    inp += self.weights[j][i] * self.temp_outputs[j]
+                self.k2[i] = step_size * self.Rtaus[i] * \
+                    (inp - self.temp_states[i])
+                self.temp_states[i] = self.states[i] + 0.5 * self.k2[i]
+
+            for i in range(self.size):
+                self.temp_outputs[i] = sigmoid(self.gains[i] *
+                                               (self.temp_states[i] +
+                                                self.biases[i]))
+
+            # The third step.
+            for i in range(self.size):
+                inp = self.external_inputs[i]
+                for j in range(self.size):
+                    inp += self.weights[j][i] * self.temp_outputs[j]
+                self.k3[i] = step_size * self.Rtaus[i] * \
+                    (inp - self.temp_states[i])
+                self.temp_states[i] = self.states[i] + self.k3[i]
+
+            for i in range(self.size):
+                self.temp_outputs[i] = sigmoid(self.gains[i] * (
+                                               self.temp_states[i] +
+                                               self.biases[i]))
+
+            # The fourth step.
+            for i in range(self.size):
+                inp = self.external_inputs[i]
+                for j in range(self.size):
+                    inp += self.weights[j][i] * self.temp_outputs[j]
+                self.k4[i] = step_size * self.Rtaus[i] * \
+                    (inp - self.temp_states[i])
+                self.states[i] += (1.0/6.0) * self.k1[i] + (1.0/3.0) * \
+                    self.k2[i] + (1.0/3.0) * self.k3[i] + (1.0/6.0) * \
+                    self.k4[i]
+                self.outputs[i] = sigmoid(self.gains[i] *
+                                          (self.states[i] + self.biases[i]))
