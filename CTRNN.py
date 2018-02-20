@@ -1,9 +1,10 @@
 from utils import sigmoid, inverse_sigmoid
+import numpy as np
 
 
 class CTRNN:
         def __init__(self, new_size=0):
-            pass
+            self.set_circuit_size(new_size)
 
         # Show the Model details
         def print_model(sefl):
@@ -13,8 +14,22 @@ class CTRNN:
         def circuit_size(self):
             return self.size
 
-        def set_circuit_size(self, newsize):
-            pass
+        def set_circuit_size(self, new_size):
+            self.size = new_size
+            self.states = np.full(new_size, 0.0, dtype=float)
+            self.outputs = np.full(new_size, 0.0, dtype=float)
+            self.biases = np.full(new_size, 0.0, dtype=float)
+            self.gains = np.full(new_size, 1.0, dtype=float)
+            self.taus = np.full(new_size, 1.0, dtype=float)
+            self.Rtaus = np.full(new_size, 1.0, dtype=float)
+            self.external_inputs = np.full(new_size, 0.0, dtype=float)
+            self.weights = np.full((new_size, new_size), 0.0, dtype=float)
+            self.temp_states = np.full(new_size, 0.0, dtype=float)
+            self.temp_outputs = np.full(new_size, 0.0, dtype=float)
+            self.k1 = np.full(new_size, 0.0, dtype=float)
+            self.k2 = np.full(new_size, 0.0, dtype=float)
+            self.k3 = np.full(new_size, 0.0, dtype=float)
+            self.k4 = np.full(new_size, 0.0, dtype=float)
 
         def neuron_state(self, i):
             return self.states[i]
@@ -100,9 +115,3 @@ class CTRNN:
 
         def RK4_step(self, stepsize):
             pass
-
-        # int size;
-        # TVector<double> states, outputs, biases, gains, taus,
-        # Rtaus, externalinputs;
-        # TMatrix<double> weights;
-        # TVector<double> TempStates,TempOutputs,k1,k2,k3,k4;
