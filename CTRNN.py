@@ -194,6 +194,7 @@ class CTRNN:
 
                 # Read the size
                 self.size = int(lines[0])
+                self.set_circuit_size(self.size)
 
                 # Read the time constants
                 d = lines[2].split()

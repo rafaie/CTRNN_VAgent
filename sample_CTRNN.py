@@ -16,4 +16,4 @@ if __name__ == "__main__":
     print(0.0, c.neuron_output(0), c.neuron_output(1))
     for time in range(int(run_duration/step_size)):
         c.euler_step(step_size)
-        print(round(time*step_size,2), c.neuron_output(0), c.neuron_output(1))
+        print(round(time*step_size, 2), c.neuron_output(0), c.neuron_output(1))
