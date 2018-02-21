@@ -186,6 +186,51 @@ class CTRNN:
                     self.k4[i]
                 self.outputs[i] = sigmoid(self.gains[i] *
                                           (self.states[i] + self.biases[i]))
-        # Input and output
-        # friend ostream& operator<<(ostream& os, CTRNN& c);
-        # friend istream& operator>>(istream& is, CTRNN& c);
+
+        # Input and output from file
+        def load(self, path):
+            with open(path, 'r') as fi:
+                lines = fi.readlines()
+
+                # Read the size
+                self.size = int(lines[0])
+
+                # Read the time constants
+                d = lines[2].split()
+                for i in range(self.size):
+                    self.taus[i] = d[i]
+
+                # Read the biases
+                d = lines[4].split()
+                for i in range(self.size):
+                    self.biases[i] = d[i]
+
+                # Read the gains
+                d = lines[6].split()
+                for i in range(self.size):
+                    self.gains[i] = d[i]
+
+                # Read the weights
+                for i in range(self.size):
+                    d = lines[8+i].split()
+                    for j in range(self.size):
+                        self.weights[i][j] = d[j]
+
+        def save(self, path):
+            with open(path, 'w') as fi:
+                # Write the size
+                fi.write(self.size + '\n\n')
+
+                # Write the time constants
+                fi.write(' '.join([str(i) for i in self.taus]) + '\n\n')
+
+                # Write the biases
+                fi.write(' '.join([str(i) for i in self.biases]) + '\n\n')
+
+                # Write the gains
+                fi.write(' '.join([str(i) for i in self.gains]) + '\n\n')
+
+                # Write the weights
+                for i in range(self.size):
+                    fi.write(' '.join([str(i) for i in self.weights[i]]) +
+                             '\n')
