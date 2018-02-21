@@ -89,7 +89,7 @@ class CTRNN:
 
         def lesion_neuron(self, n):
             for i in range(self.size):
-                self.set_connection_Weight(i, n, 0)
+                self.set_connection_weight(i, n, 0)
                 self.set_connection_weight(n, i, 0)
 
         def set_center_crossing(self):
