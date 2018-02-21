@@ -7,8 +7,17 @@ class CTRNN:
             self.set_circuit_size(new_size)
 
         # Show the Model details
-        def print_model(sefl):
-            pass
+        def print_model(self):
+            for i in range(self.size):
+                print('Neuron Number :', i)
+                print('taus:', self.taus[i])
+                print('biases:', self.biases[i])
+                print('gains:', self.gains[i])
+                print('It\'s the Weights:')
+                for j in range(self.size):
+                    print('Weight: ({}, {}) = {}'.format(i, j,
+                                                         self.weights[i][j]))
+                print('-----------------------------------------')
 
         # Accessors
         def circuit_size(self):
@@ -34,8 +43,6 @@ class CTRNN:
         def neuron_state(self, i):
             return self.states[i]
 
-        # double &NeuronStateReference(int i) {return states[i];};
-
         def set_neuron_state(self, i, value):
             self.states[i] = value
             self.outputs[i] = sigmoid(self.gains[i]*(self.states[i] +
@@ -43,8 +50,6 @@ class CTRNN:
 
         def neuron_output(self, i):
             return self.outputs[i]
-
-        # double &NeuronOutputReference(int i) {return outputs[i];};
 
         def set_neuron_output(self, i, value):
             self.outputs[i] = value
@@ -73,9 +78,6 @@ class CTRNN:
         def neuron_external_input(self, i):
             return self.external_inputs[i]
 
-        # double &NeuronExternalInputReference(int i)
-        # {return externalinputs[i];};
-
         def set_neuron_external_input(self, i, value):
             self.external_inputs[i] = value
 
@@ -86,16 +88,20 @@ class CTRNN:
             self.weights[i][j] = value
 
         def lesion_neuron(self, n):
-            for i in range(1, self.size + 1):
+            for i in range(self.size):
                 self.set_connection_Weight(i, n, 0)
                 self.set_connection_weight(n, i, 0)
 
         def set_center_crossing(self):
-            pass
+            for i in range(self.size):
+                # Sum the input weights to this neuron
+                input_weight = 0
+                for j in range(self.size):
+                    input_weight += self.connection_weight(i, j)
 
-        # Input and output
-        # friend ostream& operator<<(ostream& os, CTRNN& c);
-        # friend istream& operator>>(istream& is, CTRNN& c);
+                # Compute the corresponding ThetaStar
+                tetha_star = -input_weight/2
+                self.set_neuron_bias(i, tetha_star)
 
         def randomize_circuit_state(self, lb, ub, rs=None):
             if rs is None:
@@ -180,3 +186,6 @@ class CTRNN:
                     self.k4[i]
                 self.outputs[i] = sigmoid(self.gains[i] *
                                           (self.states[i] + self.biases[i]))
+        # Input and output
+        # friend ostream& operator<<(ostream& os, CTRNN& c);
+        # friend istream& operator>>(istream& is, CTRNN& c);
