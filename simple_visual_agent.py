@@ -11,7 +11,8 @@ RANDOM_SEED = 1
 
 
 # The main program
-def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
+def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False,
+                show_details=False):
     agent = VisualAgent()
     obj = Line()
     obj_id = 1
@@ -41,9 +42,10 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
     while obj.positionY() > VisualAgent.BODY_SIZE/2:
         t += step_size
         timer += 1
-        print("------------------")
-        print(agent.positionX(), agent.positionY())
-        print(obj.positionX(), obj.positionY())
+        if show_details is True:
+            print("------------------")
+            print(agent.positionX(), agent.positionY())
+            print(obj.positionX(), obj.positionY())
         outfile_csv.writerow([obj_id, timer, step_size, X1, Y1, X2, Y2,
                               agent.positionX(), agent.positionY,
                               obj.positionX(), obj.positionY(), status])
@@ -52,8 +54,9 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
         obj.step(step_size)
 
     end_time = time.time()
-    print('finished computation at', end_time, ', elapsed time: ',
-          end_time - start_time)
+    if show_details is True:
+        print('finished computation at', end_time, ', elapsed time: ',
+              end_time - start_time)
 
     outfile_csv.writerow([obj_id, timer, step_size, X1, Y1, X2, Y2,
                           agent.positionX(), agent.positionY,
@@ -72,8 +75,12 @@ if __name__ == "__main__":
         for j2 in range(-30, 30, 15):
             for i in np.arange(0.1, 0.2, 0.01):
                 print("------------------------------------")
+                print('i = {}, j1 = {}, j2 = {},'.format(i, j1, j2) +
+                      ' X1 = {}, Y1 = {},'.format(j2, 0) +
+                      'X2 = {}, Y2 = {}'.format(-32 + int((275-j1)/2), j1))
+
                 run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1)
                 run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
                             True)
 
-    outfile_csv.close()
+    outfile.close()
