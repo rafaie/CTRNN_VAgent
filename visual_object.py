@@ -48,7 +48,7 @@ class Line (VisualObject):
     # he constructor
     # size --> length of segment
     def __init__(self, ix=0.0, iy=275.0, vy_=-3.0, size_=30.0):
-        self.VisualObject.__init__(ix, iy, vy_, size_)
+        super().__init__(ix, iy, vy_, size_)
 
     def ray_intersection(self, ray):
         # x_intersect
@@ -74,7 +74,7 @@ class Circle (VisualObject):
     # The constructor
     # size --> diameter
     def __init__(self, ix=0.0, iy=275.0, vy_=-3.0, size_=30.0):
-        self.VisualObject.__init__(ix, iy, vy_, size_)
+        super().__init__(ix, iy, vy_, size_)
 
     def ray_intersection(self, ray):
         # Special case, vertical ray

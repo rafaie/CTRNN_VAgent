@@ -12,7 +12,7 @@ RANDOM_SEED = 1
 
 # The main program
 def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
-    visual_agent = VisualAgent()
+    agent = VisualAgent()
     obj = Line()
     obj_id = 1
     if is_circle is True:
@@ -24,7 +24,7 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
         print('The network file is Not exit')
         sys.exit(1)
 
-    visual_agent.nervous_system.load(path)
+    agent.nervous_system.load(path)
 
     # Run the agent
     random.seed()
@@ -35,10 +35,10 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False):
 
     timer = 0
     status = 0
-    strt_time = time.time()
+    start_time = time.time()
 
     t = 0
-    while obj.positionY() > BodySize/2:
+    while obj.positionY() > VisualAgent.BODY_SIZE/2:
         t += step_size
         timer += 1
         print("------------------")

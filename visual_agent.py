@@ -10,7 +10,7 @@ class VisualAgent:
     ENV_WIDTH = 400.0
     MAX_RAY_LENGTH = 220.0
     INPUT_GAIN = 10.0
-    VISUAL_ANGLE = math.Pi/6
+    VISUAL_ANGLE = math.pi/6
     VEL_GAIN = 5
 
     def __init__(self, ix=0.0, iy=0.0, num_rays_=7):
@@ -21,7 +21,7 @@ class VisualAgent:
         self.num_rays = num_rays_
         self.rays = [Ray() for i in range(self.num_rays)]
         self.nervous_system = CTRNN()
-        self.Rays.SetBounds(1, self.NumRays)
+        # self.Rays.SetBounds(1, self.num_rays)
         self.reset(ix, iy)
 
     # Accessors
@@ -45,7 +45,7 @@ class VisualAgent:
             self.nervous_system.randomize_circuit_state(0.0, 0.0, rs)
         self.reset_rays()
 
-    def Step(self, step_size, object):
+    def step(self, step_size, object):
         self.reset_rays()
         for i in range(self.num_rays):
             object.ray_intersection(self.rays[i])
@@ -59,10 +59,10 @@ class VisualAgent:
         self.nervous_system.euler_step(step_size)
 
         # Update agent state
-        self.vx = VisualAgent.VEL_GAIN * (self.nervous_system.outputs[13] -
-                                          self.nervous_system.outputs[14])
+        self.vx = VisualAgent.VEL_GAIN * (self.nervous_system.outputs[12] -
+                                          self.nervous_system.outputs[13])
 
-        self.cx += VisualAgent.step_size * self.vx
+        self.cx += step_size * self.vx
 
         if self.cx < -VisualAgent.ENV_WIDTH/2:
             self.cx = -VisualAgent.ENV_WIDTH/2
@@ -82,11 +82,11 @@ class VisualAgent:
         # Set starting coordinates (i.e. on upper perimeter of agent body)
         if ray.m == math.inf:
             ray.startX = cx
-            ray.startY = cy + VisualAgent.BodySize / 2
+            ray.startY = cy + VisualAgent.BODY_SIZE / 2
             return
 
-        ray.startX = cx + (VisualAgent.BodySize / 2) * math.sin(theta)
-        ray.startY = cy + (VisualAgent.BodySize / 2) * math.cos(theta)
+        ray.startX = cx + (VisualAgent.BODY_SIZE / 2) * math.sin(theta)
+        ray.startY = cy + (VisualAgent.BODY_SIZE / 2) * math.cos(theta)
 
     def reset_rays(self):
         theta = VisualAgent.VISUAL_ANGLE / 2
