@@ -11,6 +11,14 @@ class Ray:
         self.startY = startY
         self.length = length
 
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return "Ray, " + \
+               "b={}, m={}, startX={}".format(self.b, self.m, self.startX) + \
+               ", startY={}, length={}".format(self.startY, self.length)
+
 
 # The VisualObject class declaration
 class VisualObject:
@@ -43,6 +51,17 @@ class VisualObject:
     def step(self, step_size):
         self.cy += step_size * self.vy
 
+    def who_am_i(self):
+        return "VisualObject"
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self.who_am_i() + ", "\
+               "cx={}, cy={}, vy={}".format(self.cx, self.cy, self.vy) + \
+               ", size={}".format(self.size)
+
 
 # Class for horizontal line segment
 class Line (VisualObject):
@@ -68,6 +87,9 @@ class Line (VisualObject):
         if new_length < ray.length:
             ray.length = new_length
         return ray
+
+    def who_am_i(self):
+        return "Line"
 
 
 # Class definition for a circle
@@ -129,3 +151,6 @@ class Circle (VisualObject):
             ray.length = new_length
 
         return ray
+
+    def who_am_i(self):
+        return "Circle"
