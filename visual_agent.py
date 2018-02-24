@@ -45,15 +45,18 @@ class VisualAgent:
             self.nervous_system.randomize_circuit_state(0.0, 0.0, rs)
         self.reset_rays()
 
-    def step(self, step_size, object):
+    def step(self, step_size, object, show_details=False):
         self.reset_rays()
-        print("------------")
         for i in range(self.num_rays):
             object.ray_intersection(self.rays[i])
             external_input = VisualAgent.INPUT_GAIN * \
                 (VisualAgent.MAX_RAY_LENGTH -
                  self.rays[i].length)/VisualAgent.MAX_RAY_LENGTH
-            print(' ==> ', i, external_input)
+            if show_details is True:
+                print('==> ', i, external_input)
+                print(self.rays[i])
+                print(object)
+
             self.nervous_system.set_neuron_external_input(i, external_input)
 
         # Step nervous system
@@ -90,7 +93,11 @@ class VisualAgent:
         ray.startY = cy + (VisualAgent.BODY_SIZE / 2) * math.cos(theta)
 
     def reset_rays(self):
-        theta = VisualAgent.VISUAL_ANGLE / 2
+        theta = - VisualAgent.VISUAL_ANGLE / 2
         for i in range(self.num_rays):
             self.reset_ray(self.rays[i], theta, self.cx, self.cy)
+            # print("============================")
+            # print("theta={}, i={}, cx={}, cy={}".format(theta, i, self.cx,
+            #                                             self.cy))
+            # print(self.rays[i])
             theta += VisualAgent.VISUAL_ANGLE/(self.num_rays - 1)
