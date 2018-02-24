@@ -4,22 +4,23 @@ import math
 # A visual ray – line segment of form y = mx + b with start
 # coordinates and length
 class Ray:
-    b = 0
-    m = 0
-    startX = 0
-    startY = 0
-    length = 0
+    def __init__(self, b=0, m=0, startX=0, startY=0, length=0):
+        self.b = b
+        self.m = m
+        self.startX = startX
+        self.startY = startY
+        self.length = length
 
 
 # The VisualObject class declaration
 class VisualObject:
 
     # The constructor
-    def __init__(self, ix=0.0, iy=275.0, vy_=-3.0, size_=30.0):
-        self.cx = ix
-        self.cy = iy
-        self.vy = vy_
-        self.size = size_
+    def __init__(self, cx=0.0, cy=275.0, vy=-3.0, size=30.0):
+        self.cx = cx
+        self.cy = cy
+        self.vy = vy
+        self.size = size
 
     # Updates ray length if an intersection occurs
     # Assumes agent is 'looking up' at object
@@ -47,8 +48,8 @@ class VisualObject:
 class Line (VisualObject):
     # he constructor
     # size --> length of segment
-    def __init__(self, ix=0.0, iy=275.0, vy_=-3.0, size_=30.0):
-        super().__init__(ix, iy, vy_, size_)
+    def __init__(self, cx=0.0, cy=275.0, vy=-3.0, size=30.0):
+        super().__init__(cx, cy, vy, size)
 
     def ray_intersection(self, ray):
         # x_intersect
@@ -73,8 +74,8 @@ class Line (VisualObject):
 class Circle (VisualObject):
     # The constructor
     # size --> diameter
-    def __init__(self, ix=0.0, iy=275.0, vy_=-3.0, size_=30.0):
-        super().__init__(ix, iy, vy_, size_)
+    def __init__(self, cx=0.0, cy=275.0, vy=-3.0, size=30.0):
+        super().__init__(cx, cy, vy, size)
 
     def ray_intersection(self, ray):
         # Special case, vertical ray

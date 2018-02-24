@@ -47,12 +47,13 @@ class VisualAgent:
 
     def step(self, step_size, object):
         self.reset_rays()
+        print("------------")
         for i in range(self.num_rays):
             object.ray_intersection(self.rays[i])
             external_input = VisualAgent.INPUT_GAIN * \
                 (VisualAgent.MAX_RAY_LENGTH -
                  self.rays[i].length)/VisualAgent.MAX_RAY_LENGTH
-
+            print(' ==> ', i, external_input)
             self.nervous_system.set_neuron_external_input(i, external_input)
 
         # Step nervous system
