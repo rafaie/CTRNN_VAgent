@@ -39,6 +39,9 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False,
     start_time = time.time()
 
     t = 0
+    if show_details is True:
+        agent.nervous_system.print_model_abstract()
+
     while obj.positionY() > VisualAgent.BODY_SIZE/2:
         t += step_size
         timer += 1
@@ -47,19 +50,22 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False,
             print(agent.positionX(), agent.positionY())
             print(obj.positionX(), obj.positionY())
         outfile_csv.writerow([obj_id, timer, step_size, X1, Y1, X2, Y2,
-                              agent.positionX(), agent.positionY,
+                              agent.positionX(), agent.positionY(),
                               obj.positionX(), obj.positionY(), status])
         status = 1
-        agent.step(step_size, obj)
+        agent.step(step_size, obj, show_details=show_details)
         obj.step(step_size)
+        if show_details is True:
+            agent.nervous_system.print_model_abstract()
 
+    status += 1
     end_time = time.time()
     if show_details is True:
         print('finished computation at', end_time, ', elapsed time: ',
               end_time - start_time)
 
     outfile_csv.writerow([obj_id, timer, step_size, X1, Y1, X2, Y2,
-                          agent.positionX(), agent.positionY,
+                          agent.positionX(), agent.positionY(),
                           obj.positionX(), obj.positionY(), status])
 
 
@@ -79,8 +85,14 @@ if __name__ == "__main__":
                       ' X1 = {}, Y1 = {},'.format(j2, 0) +
                       'X2 = {}, Y2 = {}'.format(-32 + int((275-j1)/2), j1))
 
-                run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1)
                 run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
-                            True)
+                            show_details=False)
+                run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
+                            True, show_details=False)
+
+    # run_process(outfile_csv, 0.1, -20, 0, 0, 200, show_details=True)
+    # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    # run_process(outfile_csv, 0.1, -20, 0, 0, 200, is_circle=True,
+    #             show_details=True)
 
     outfile.close()
