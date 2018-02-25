@@ -19,6 +19,37 @@ class CTRNN:
                                                          self.weights[i][j]))
                 print('-----------------------------------------')
 
+        # Show the Model details
+        def print_model_abstract(self):
+            o = ''
+            t = ''
+            b = ''
+            g = ''
+            w = ''
+            r = ''
+            e = ''
+            s = ''
+            for i in range(self.size):
+                o += str(round(self.outputs[i], 9)) + ', '
+                t += str(round(self.taus[i], 9)) + ', '
+                r += str(round(self.Rtaus[i], 9)) + ', '
+                b += str(round(self.biases[i], 9)) + ', '
+                g += str(round(self.gains[i], 9)) + ', '
+                e += str(round(self.external_inputs[i], 9)) + ', '
+                s += str(round(self.states[i], 9)) + ', '
+                for j in range(self.size):
+                    w += str(round(self.weights[i][j], 9)) + ', '
+                w += '\n'
+
+            print("Output:", o)
+            print("taus:", t)
+            print("Rtaus:", r)
+            print("biases:", b)
+            print("gain:", g)
+            print("external_inputs:", e)
+            print("states:", s)
+            print("weight:\n", w)
+
         # Accessors
         def circuit_size(self):
             return self.size
@@ -126,8 +157,11 @@ class CTRNN:
                 inp = self.external_inputs[i]
                 for j in range(self.size):
                     inp += self.weights[j][i] * self.outputs[j]
+                # ll = self.states[i]
                 self.states[i] += step_size * self.Rtaus[i] * \
                     (inp - self.states[i])
+                # print ("--->", i, step_size, inp, self.states[i],
+                #        self.Rtaus[i], ll)
 
             # Update the outputs of all neurons.
             for i in range(self.size):
@@ -200,6 +234,7 @@ class CTRNN:
                 d = lines[2].split()
                 for i in range(self.size):
                     self.taus[i] = d[i]
+                    self.Rtaus[i] = 1/self.taus[i]
 
                 # Read the biases
                 d = lines[4].split()
