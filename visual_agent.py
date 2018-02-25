@@ -21,7 +21,6 @@ class VisualAgent:
         self.num_rays = num_rays_
         self.rays = [Ray() for i in range(self.num_rays)]
         self.nervous_system = CTRNN()
-        # self.Rays.SetBounds(1, self.num_rays)
         self.reset(ix, iy)
 
     # Accessors
@@ -70,8 +69,9 @@ class VisualAgent:
 
         if self.cx < -VisualAgent.ENV_WIDTH/2:
             self.cx = -VisualAgent.ENV_WIDTH/2
-        elif self.cx > -VisualAgent.ENV_WIDTH/2:
-            self.cx = -VisualAgent.ENV_WIDTH/2
+        elif self.cx > VisualAgent.ENV_WIDTH/2:
+            self.cx = VisualAgent.ENV_WIDTH/2
+        print(self.nervous_system.outputs)
 
     def reset_ray(self, ray, theta, cx, cy):
         if abs(theta) < 0.0000001:
@@ -96,8 +96,4 @@ class VisualAgent:
         theta = - VisualAgent.VISUAL_ANGLE / 2
         for i in range(self.num_rays):
             self.reset_ray(self.rays[i], theta, self.cx, self.cy)
-            # print("============================")
-            # print("theta={}, i={}, cx={}, cy={}".format(theta, i, self.cx,
-            #                                             self.cy))
-            # print(self.rays[i])
             theta += VisualAgent.VISUAL_ANGLE/(self.num_rays - 1)
