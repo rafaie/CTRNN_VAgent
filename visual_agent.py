@@ -71,7 +71,6 @@ class VisualAgent:
             self.cx = -VisualAgent.ENV_WIDTH/2
         elif self.cx > VisualAgent.ENV_WIDTH/2:
             self.cx = VisualAgent.ENV_WIDTH/2
-        print(self.nervous_system.outputs)
 
     def reset_ray(self, ray, theta, cx, cy):
         if abs(theta) < 0.0000001:
