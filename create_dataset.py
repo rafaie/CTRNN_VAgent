@@ -32,7 +32,7 @@ def get_random_X12Y():
                         ENV_WIDTH / 2 - BODY_SIZE/2)
     x2 = random.randint(-ENV_WIDTH / 2 + BODY_SIZE/2,
                         ENV_WIDTH / 2 - BODY_SIZE/2)
-    y = random.randint()
+    y = random.randint(ENV_MAX_HEIGHT - ENV_MIN_HEIGHT, ENV_MAX_HEIGHT)
 
     return (x1, x2, y)
 
