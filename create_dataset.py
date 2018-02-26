@@ -14,15 +14,24 @@ WIDTH_DIST = 5
 RANDOM_DATA_COUNT = 10
 
 
-def gen_data(x1, x2, y2, type=LINE):
-    pass
+def gen_data(x1, x2, y2, type=CIRCLE):
+    y1 = 0
+    if CIRCLE:
+        return (CIRCLE, x1, y1, x2, y2, x2, 0)
+    else:
+        if abs(x2 - x1) > BODY_SIZE * 2:
+            return (LINE, x1, y1, x2, y2, x1, 0)
+        elif x2 > 0:
+            return (LINE, x1, y1, x2, y2, -int(ENV_WIDTH / 2 - BODY_SIZE/2), 0)
+        else:
+            return (LINE, x1, y1, x2, y2, int(ENV_WIDTH / 2 - BODY_SIZE/2), 0)
 
 
 def get_random_X12Y():
-    x1 = random.randint(-ENV_WIDTH / 2 * BODY_SIZE/2,
-                        ENV_WIDTH / 2 * BODY_SIZE/2)
-    x2 = random.randint(-ENV_WIDTH / 2 * BODY_SIZE/2,
-                        ENV_WIDTH / 2 * BODY_SIZE/2)
+    x1 = random.randint(-ENV_WIDTH / 2 + BODY_SIZE/2,
+                        ENV_WIDTH / 2 - BODY_SIZE/2)
+    x2 = random.randint(-ENV_WIDTH / 2 + BODY_SIZE/2,
+                        ENV_WIDTH / 2 - BODY_SIZE/2)
     y = random.randint()
 
     return (x1, x2, y)
