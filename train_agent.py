@@ -24,7 +24,7 @@ __license__ = "APLv2"
 LINE = 1
 CIRCLE = 2
 STEP_SIZE = 0.1
-
+MODEL_SIZE = 14
 
 # dataset
 dataset_path = 'dataset.csv'
@@ -42,14 +42,18 @@ def load_dataset():
 
 
 def create_agent(genom):
-    agent = VisualAgent()
+    agent = VisualAgent(MODEL_SIZE)
+    nervous_system = agent.nervous_system
+    nervous_system.set_circuit_size(MODEL_SIZE)
 
-    path = "categorize.ns"
-    if os.path.exists(path) is False:
-        print('The network file is Not exit')
-        sys.exit(1)
+    nervous_system.set_neuron_time_constant(genom[:MODEL_SIZE])
+    nervous_system.set_neuron_bias(genom[MODEL_SIZE * 1: 2 * MODEL_SIZE])
+    nervous_system.set_neuron_gain(genom[MODEL_SIZE * 2: 3 * MODEL_SIZE])
 
-    agent.nervous_system.load(path)
+    for i in range(MODEL_SIZE):
+        for j in range(MODEL_SIZE):
+            v = genom[(i + 3) * MODEL_SIZE + j]
+            nervous_system.set_connection_weight(i, j, v)
 
     return agent
 
@@ -122,8 +126,8 @@ if __name__ == "__main__":
     logging.config.dictConfig(yaml.load(
                               open('genetic_algorithm/logging.yaml')))
 
-    path = 'genetic_algorithm/sample_genom_struct.csv'
-    init_population_size = 10000
+    path = 'genom_struct.csv'
+    init_population_size = 10
     population_size = 200
     mutation_rate = 0.20
     num_iteratitions = 400
@@ -133,14 +137,18 @@ if __name__ == "__main__":
     load_dataset()
 
     ga = GeneticAlgorithm(path)
+    population = ga.init_generation(init_population_size)
+    print(population[0])
+    agent = create_agent(population[0])
+    agent.nervous_system.print_model_abstract()
 
-    start_time = time.time()
-    population = ga.run(init_population_size, population_size,
-                        mutation_rate, num_iteratitions, crossover_type,
-                        calc_fitness, fitness_goal,
-                        cuncurrency=1,
-                        reverse_fitness_order=False)
+    # start_time = time.time()
+    # population = ga.run(init_population_size, population_size,
+    #                     mutation_rate, num_iteratitions, crossover_type,
+    #                     calc_fitness, fitness_goal,
+    #                     cuncurrency=1,
+    #                     reverse_fitness_order=False)
     end_time = time.time()
-    print(population[:3].astype(float))
-    print(population[:, -1].astype(float))
-    print('Runtime :', end_time - start_time)
+    # print(population[:3].astype(float))
+    # print(population[:, -1].astype(float))
+    # print('Runtime :', end_time - start_time)
