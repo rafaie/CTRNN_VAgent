@@ -90,21 +90,32 @@ class CTRNN:
         def neuron_bias(self, i):
             return self.biases[i]
 
-        def set_neuron_bias(self, i, value):
-            self.biases[i] = value
+        def set_neuron_bias(self, i, value=None):
+            if value is None:
+                self.biases = i
+            else:
+                self.biases[i] = value
 
         def neuron_gain(self, i):
-            self.gains[i]
+            return self.gains[i]
 
-        def set_neuron_gain(self, i, value):
-            self.gains[i] = value
+        def set_neuron_gain(self, i, value=None):
+            if value is None:
+                self.gains = i
+            else:
+                self.gains[i] = value
 
         def neuron_time_constant(self, i):
             return self.taus[i]
 
-        def set_neuron_time_constant(self, i, value):
-            self.taus[i] = value
-            self.Rtaus[i] = 1/value
+        def set_neuron_time_constant(self, i, value=None):
+            if value is None:
+                for j, v in enumerate(i):
+                    self.taus[j] = v
+                    self.Rtaus[j] = 1/v
+            else:
+                self.taus[i] = value
+                self.Rtaus[i] = 1/value
 
         def neuron_external_input(self, i):
             return self.external_inputs[i]
