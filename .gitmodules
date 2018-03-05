@@ -1,0 +1,3 @@
+[submodule "genetic-algorithm"]
+	path = genetic-algorithm
+	url = https://github.com/rafaie/genetic-algorithm
