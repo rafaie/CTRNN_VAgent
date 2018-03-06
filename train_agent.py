@@ -132,21 +132,21 @@ def calc_fitness(genom):
 def save_models(population):
     for i in range(10):
         agent = create_agent(population[i])
-        agent.nervous_system.save('model_' + str(i) + '.ns')
+        agent.nervous_system.save('models/model_' + str(i) + '.ns')
 
 
 if __name__ == "__main__":
     # Load logger
     global logger
     logging.config.dictConfig(
-        yaml.load(open('genetic_algorithm/logging.yaml')))
+        yaml.load(open('logging.yaml')))
     logger = logging.getLogger(GeneticAlgorithm.LOGGER_HANDLER_NAME)
 
     path = 'genom_struct.csv'
-    init_population_size = 20
-    population_size = 10
+    init_population_size = 1000
+    population_size = 100
     mutation_rate = 0.20
-    num_iteratitions = 10
+    num_iteratitions = 100
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
     fitness_goal = 0.00001
 
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     population = ga.run(init_population_size, population_size,
                         mutation_rate, num_iteratitions, crossover_type,
                         calc_fitness, fitness_goal,
-                        cuncurrency=10,
+                        cuncurrency=40,
                         reverse_fitness_order=False)
     save_models(population)
     end_time = time.time()
