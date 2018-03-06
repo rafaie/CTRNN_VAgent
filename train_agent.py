@@ -7,8 +7,6 @@ parameters for the CTRNN
 import logging.config
 import yaml
 import numpy as np
-import os
-import sys
 import random
 import time
 import csv
@@ -26,19 +24,21 @@ CIRCLE = 2
 STEP_SIZE = 0.1
 MODEL_SIZE = 14
 
+
 # dataset
 dataset_path = 'dataset.csv'
 dataset = []
 
 
 def load_dataset():
+    global dataset
     dataset = []
 
     with open('dataset.csv', 'r') as fi:
         csv_file = csv.reader(fi, delimiter=',',
                               quotechar="'", quoting=csv.QUOTE_MINIMAL)
         for row in csv_file:
-            dataset.append(row)
+            dataset.append([float(i) for i in row])
 
 
 def create_agent(genom):
@@ -107,6 +107,10 @@ def run_process(data, agent, show_details=False):
         print('finished computation at', end_time, ', elapsed time: ',
               end_time - start_time)
 
+    logger.info('Start computation at {}, elapsed time:{}'.format(start_time,
+                                                                  end_time -
+                                                                  start_time))
+
     return math.sqrt((agent.positionX() - goal_x) ** 2 +
                      (agent.positionY() - goal_y) ** 2)
 
@@ -117,38 +121,38 @@ def calc_fitness(genom):
     agent = create_agent(genom)
 
     for data in dataset:
-        fitness.append(run_process(data, agent))
+        f = run_process(data, agent)
+        fitness.append(f)
+        logger.info('value for "{}" is {}'.format(data, f))
 
     return np.median(fitness)
 
 
 if __name__ == "__main__":
-    logging.config.dictConfig(yaml.load(
-                              open('genetic_algorithm/logging.yaml')))
+    # Load logger
+    global logger
+    logging.config.dictConfig(
+        yaml.load(open('genetic_algorithm/logging.yaml')))
+    logger = logging.getLogger(GeneticAlgorithm.LOGGER_HANDLER_NAME)
 
     path = 'genom_struct.csv'
-    init_population_size = 10
-    population_size = 200
+    init_population_size = 20
+    population_size = 10
     mutation_rate = 0.20
-    num_iteratitions = 400
+    num_iteratitions = 10
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
     fitness_goal = 0.00001
 
     load_dataset()
 
     ga = GeneticAlgorithm(path)
-    population = ga.init_generation(init_population_size)
-    print(population[0])
-    agent = create_agent(population[0])
-    agent.nervous_system.print_model_abstract()
-
-    # start_time = time.time()
-    # population = ga.run(init_population_size, population_size,
-    #                     mutation_rate, num_iteratitions, crossover_type,
-    #                     calc_fitness, fitness_goal,
-    #                     cuncurrency=1,
-    #                     reverse_fitness_order=False)
+    start_time = time.time()
+    population = ga.run(init_population_size, population_size,
+                        mutation_rate, num_iteratitions, crossover_type,
+                        calc_fitness, fitness_goal,
+                        cuncurrency=10,
+                        reverse_fitness_order=False)
     end_time = time.time()
-    # print(population[:3].astype(float))
-    # print(population[:, -1].astype(float))
-    # print('Runtime :', end_time - start_time)
+    print(population[:3].astype(float))
+    print(population[:, -1].astype(float))
+    print('Runtime :', end_time - start_time)
