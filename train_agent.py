@@ -128,6 +128,13 @@ def calc_fitness(genom):
     return np.median(fitness)
 
 
+# Save the best 10 models!
+def save_models(population):
+    for i in range(10):
+        agent = create_agent(population[i])
+        agent.nervous_system.save('model_' + str(i) + '.ns')
+
+
 if __name__ == "__main__":
     # Load logger
     global logger
@@ -152,6 +159,7 @@ if __name__ == "__main__":
                         calc_fitness, fitness_goal,
                         cuncurrency=10,
                         reverse_fitness_order=False)
+    save_models(population)
     end_time = time.time()
     print(population[:3].astype(float))
     print(population[:, -1].astype(float))
