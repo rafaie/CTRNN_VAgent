@@ -168,11 +168,9 @@ class CTRNN:
                 inp = self.external_inputs[i]
                 for j in range(self.size):
                     inp += self.weights[j][i] * self.outputs[j]
-                # ll = self.states[i]
                 self.states[i] += step_size * self.Rtaus[i] * \
                     (inp - self.states[i])
-                # print ("--->", i, step_size, inp, self.states[i],
-                #        self.Rtaus[i], ll)
+
 
             # Update the outputs of all neurons.
             for i in range(self.size):
@@ -266,7 +264,7 @@ class CTRNN:
         def save(self, path):
             with open(path, 'w') as fi:
                 # Write the size
-                fi.write(self.size + '\n\n')
+                fi.write(str(self.size) + '\n\n')
 
                 # Write the time constants
                 fi.write(' '.join([str(i) for i in self.taus]) + '\n\n')
