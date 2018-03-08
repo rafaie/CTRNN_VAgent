@@ -114,18 +114,18 @@ def run_process(data, agent, show_details=False):
                       (agent.positionY() - obj.positionY()) ** 2)
     f = 300
     if obj_id == LINE:
-        if dist2 > 40:
+        if dist2 > 30:
             f = 0
         else:
-            f = dist2 / 10
+            f = (30 - dist2) * 5
     else:
-        if dist < 40:
+        if dist < 30:
             f = dist / 10
         else:
-            f = dist - 40
+            f = dist - 30
 
     return [agent.positionX(), agent.positionY(), obj.positionX(),
-            obj.positionY(), f]
+            obj.positionY(), dist, dist2, f]
 
 
 # Using inverse function for fitness 1/F(x)
