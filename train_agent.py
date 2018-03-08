@@ -107,14 +107,10 @@ def run_process(data, agent, show_details=False):
         print('finished computation at', end_time, ', elapsed time: ',
               end_time - start_time)
 
-    #logger.info('Start computation at {}, elapsed time:{}'.format(start_time,
-    #                                                              end_time -
-    #                                                              start_time))
-
     dist = math.sqrt((agent.positionX() - goal_x) ** 2 +
-                    (agent.positionY() - goal_y) ** 2)
+                     (agent.positionY() - goal_y) ** 2)
 
-    return [agent.positionX(), agent.positionY(), obj.positionX(), 
+    return [agent.positionX(), agent.positionY(), obj.positionX(),
             obj.positionY(), dist]
 
 
@@ -129,9 +125,10 @@ def calc_fitness(genom):
         f = o[-1]
         fitness.append(f)
         data2.append(data + o)
-    
+
     logger.info('data2 = {} '.format(data2))
-    logger.info('mean = {} and median = {} '.format(np.mean(fitness), np.median(fitness)))
+    logger.info('mean = {} and median = {} '.format(np.mean(fitness),
+                np.median(fitness)))
     return np.mean(fitness)
 
 
