@@ -107,25 +107,32 @@ def run_process(data, agent, show_details=False):
         print('finished computation at', end_time, ', elapsed time: ',
               end_time - start_time)
 
-    logger.info('Start computation at {}, elapsed time:{}'.format(start_time,
-                                                                  end_time -
-                                                                  start_time))
+    #logger.info('Start computation at {}, elapsed time:{}'.format(start_time,
+    #                                                              end_time -
+    #                                                              start_time))
 
-    return math.sqrt((agent.positionX() - goal_x) ** 2 +
-                     (agent.positionY() - goal_y) ** 2)
+    dist = math.sqrt((agent.positionX() - goal_x) ** 2 +
+                    (agent.positionY() - goal_y) ** 2)
+
+    return [agent.positionX(), agent.positionY(), obj.positionX(), 
+            obj.positionY(), dist]
 
 
 # Using inverse function for fitness 1/F(x)
 def calc_fitness(genom):
     fitness = []
     agent = create_agent(genom)
+    data2 = []
 
     for data in dataset:
-        f = run_process(data, agent)
+        o = run_process(data, agent)
+        f = o[-1]
         fitness.append(f)
-        logger.info('value for "{}" is {}'.format(data, f))
-
-    return np.median(fitness)
+        data2.append(data + o)
+    
+    logger.info('data2 = {} '.format(data2))
+    logger.info('mean = {} and median = {} '.format(np.mean(fitness), np.median(fitness)))
+    return np.mean(fitness)
 
 
 # Save the best 10 models!
@@ -143,10 +150,10 @@ if __name__ == "__main__":
     logger = logging.getLogger(GeneticAlgorithm.LOGGER_HANDLER_NAME)
 
     path = 'genom_struct.csv'
-    init_population_size = 1000
+    init_population_size = 6000
     population_size = 100
     mutation_rate = 0.20
-    num_iteratitions = 100
+    num_iteratitions = 500
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
     fitness_goal = 0.00001
 
@@ -157,7 +164,7 @@ if __name__ == "__main__":
     population = ga.run(init_population_size, population_size,
                         mutation_rate, num_iteratitions, crossover_type,
                         calc_fitness, fitness_goal,
-                        cuncurrency=40,
+                        cuncurrency=20,
                         reverse_fitness_order=False)
     save_models(population)
     end_time = time.time()
