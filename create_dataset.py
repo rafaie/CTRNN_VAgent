@@ -5,13 +5,14 @@ BODY_SIZE = 30.0
 ENV_WIDTH = 400.0
 ENV_MIN_HEIGHT = 200.0
 ENV_MAX_HEIGHT = 400.0
+ENV_BASE_HEIGHT = 250.0
 
 LINE = 1
 CIRCLE = 2
 
 HIGHT_DIST = 3
-WIDTH_DIST = 5
-RANDOM_DATA_COUNT = 10
+WIDTH_DIST = 4
+RANDOM_DATA_COUNT = 2
 
 
 def gen_data(x1, x2, y2, type=CIRCLE):
@@ -48,12 +49,13 @@ if __name__ == '__main__':
                 x2 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
                          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * j)
 
-                for k in range(HIGHT_DIST):
-                    y = int(ENV_MAX_HEIGHT -
-                            (ENV_MAX_HEIGHT - ENV_MIN_HEIGHT) / HIGHT_DIST * k)
-
-                    outfile_csv.writerow(gen_data(x1, x2, y, LINE))
-                    outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))
+                # for k in range(HIGHT_DIST):
+                #     y = int(ENV_MAX_HEIGHT -
+                #             (ENV_MAX_HEIGHT - ENV_MIN_HEIGHT) /
+                #             HIGHT_DIST * k)
+                y = ENV_BASE_HEIGHT
+                outfile_csv.writerow(gen_data(x1, x2, y, LINE))
+                outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))
 
         for i in range(RANDOM_DATA_COUNT):
             x1, x2, y = get_random_X12Y()
