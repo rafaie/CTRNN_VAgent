@@ -114,15 +114,15 @@ def run_process(data, agent, show_details=False):
                       (agent.positionY() - obj.positionY()) ** 2)
     f = 300
     if obj_id == LINE:
-        if dist2 > 30:
+        if dist2 > 28:
             f = 0
         else:
-            f = (30 - dist2) * 5
+            f = (28 - dist2) * 5
     else:
-        if dist < 30:
+        if dist < 28:
             f = dist / 10
         else:
-            f = dist - 30
+            f = (dist - 28) * 10
 
     return [agent.positionX(), agent.positionY(), obj.positionX(),
             obj.positionY(), dist, dist2, f]
@@ -164,7 +164,7 @@ if __name__ == "__main__":
     init_population_size = 6000
     population_size = 100
     mutation_rate = 0.20
-    num_iteratitions = 500
+    num_iteratitions = 100
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
     fitness_goal = 0.00001
 
