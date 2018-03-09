@@ -6,6 +6,9 @@ ENV_WIDTH = 400.0
 ENV_MIN_HEIGHT = 200.0
 ENV_MAX_HEIGHT = 400.0
 ENV_BASE_HEIGHT = 250.0
+ENV_MIN_X = -25
+ENV_MAX_X = 25
+
 
 LINE = 1
 CIRCLE = 2
@@ -43,11 +46,14 @@ if __name__ == '__main__':
         outfile_csv = csv.writer(fi, delimiter=',',
                                  quotechar="'", quoting=csv.QUOTE_MINIMAL)
         for i in range(WIDTH_DIST):
-            x1 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
-                     (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * i)
+            # x1 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
+            #          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * i)
+            dist = ENV_MAX_X - ENV_MIN_X
+            x1 = int(ENV_MIN_X + dist / (WIDTH_DIST - 1) * i)
             for j in range(WIDTH_DIST):
-                x2 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
-                         (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * j)
+                # x2 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
+                #          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * j)
+                x2 = int(ENV_MIN_X + dist / (WIDTH_DIST - 1) * j)
 
                 # for k in range(HIGHT_DIST):
                 #     y = int(ENV_MAX_HEIGHT -
@@ -57,8 +63,8 @@ if __name__ == '__main__':
                 outfile_csv.writerow(gen_data(x1, x2, y, LINE))
                 outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))
 
-        for i in range(RANDOM_DATA_COUNT):
-            x1, x2, y = get_random_X12Y()
-
-            outfile_csv.writerow(gen_data(x1, x2, y, LINE))
-            outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))
+        # for i in range(RANDOM_DATA_COUNT):
+        #     x1, x2, y = get_random_X12Y()
+        #
+        #     outfile_csv.writerow(gen_data(x1, x2, y, LINE))
+        #     outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))

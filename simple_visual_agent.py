@@ -12,7 +12,7 @@ RANDOM_SEED = 1
 
 # The main program
 def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False,
-                show_details=False):
+                show_details=False, path=None):
     agent = VisualAgent()
     obj = Line()
     obj_id = 1
@@ -20,7 +20,9 @@ def run_process(outfile_csv, step_size, X1, Y1, X2, Y2, is_circle=False,
         obj = Circle()
         obj_id = 2
 
-    path = "categorize.ns"
+    if path is None:
+        path = "categorize.ns"
+
     if os.path.exists(path) is False:
         print('The network file is Not exit')
         sys.exit(1)
@@ -77,18 +79,34 @@ if __name__ == "__main__":
                           'X2', 'Y2', 'agent_X', 'agent_Y', 'obj_X',
                           'obj_Y', 'status'])
 
-    for j1 in range(150, 270, 20):
-        for j2 in range(-30, 30, 15):
-            for i in np.arange(0.1, 0.2, 0.01):
-                print("------------------------------------")
-                print('i = {}, j1 = {}, j2 = {},'.format(i, j1, j2) +
-                      ' X1 = {}, Y1 = {},'.format(j2, 0) +
-                      'X2 = {}, Y2 = {}'.format(-32 + int((275-j1)/2), j1))
+    # print('-------')
+    # for j1 in range(150, 270, 20):
+    #     for j2 in range(-30, 30, 15):
+    #         for i in np.arange(0.1, 0.11, 0.01):
+    #             print("------------------------------------")
+    #             print('i = {}, j1 = {}, j2 = {},'.format(i, j1, j2) +
+    #                   ' X1 = {}, Y1 = {},'.format(j2, 0) +
+    #                   'X2 = {}, Y2 = {}'.format(-32 + int((275-j1)/2), j1))
+    #
+    #             run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
+    #                         show_details=False, path="models/model_0.ns")
+    #             run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
+    #                         is_circle=True, show_details=False,
+    #                         path="models/model_0.ns")
 
-                run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
-                            show_details=False)
-                run_process(outfile_csv, i, j2, 0, -32 + int((275-j1)/2), j1,
-                            True, show_details=False)
+    dataset = []
+    with open('dataset.csv', 'r') as fi:
+        csv_file = csv.reader(fi, delimiter=',',
+                              quotechar="'", quoting=csv.QUOTE_MINIMAL)
+        for row in csv_file:
+            dataset.append([float(i) for i in row])
+
+    for d in dataset:
+        print(d)
+        is_circle = True if int(d[0]) == 2 else False
+        run_process(outfile_csv, 0.1, d[1], d[2], d[3], d[4],
+                    show_details=False, is_circle=is_circle,
+                    path=None)
 
     # run_process(outfile_csv, 0.1, -20, 0, 0, 200, show_details=True)
     # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
