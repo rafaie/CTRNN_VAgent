@@ -114,10 +114,10 @@ def run_process(data, agent, show_details=False):
                       (agent.positionY() - obj.positionY()) ** 2)
     f = 300
     if obj_id == LINE:
-        if dist2 > 28:
-            f = 0
+        if dist2 > 30:
+            f = (2000 - dist2) / 1000
         else:
-            f = (28 - dist2) * 5
+            f = (30 - dist2) * 5
     else:
         if dist < 28:
             f = dist / 10
