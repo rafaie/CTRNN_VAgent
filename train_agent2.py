@@ -23,7 +23,7 @@ LINE = 1
 CIRCLE = 2
 STEP_SIZE = 0.1
 MODEL_SIZE = 14
-MAX_DISTANCE = 200.0
+MAX_DISTANCE = 100.0
 
 # dataset
 dataset_path = 'dataset.csv'

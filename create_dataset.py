@@ -49,7 +49,7 @@ if __name__ == '__main__':
             # x1 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
             #          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * i)
             dist = ENV_MAX_X - ENV_MIN_X
-            x1 = 3 * int(ENV_MIN_X + dist / (WIDTH_DIST - 1) * i)
+            x1 = 2 * int(ENV_MIN_X + dist / (WIDTH_DIST - 1) * i)
             for j in range(WIDTH_DIST):
                 # x2 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
                 #          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * j)
