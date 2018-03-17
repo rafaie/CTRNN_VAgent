@@ -109,20 +109,16 @@ def run_process(data, agent, show_details=False):
 
     dist = min(math.fabs(agent.positionX() - obj.positionX()), MAX_DISTANCE)
 
-    max_missed_score = 0.35
+    max_missed_score = 0.2
     if obj_id == CIRCLE:
-        if dist < 28:
-            f = 1 - 0.15 * dist/28
-        elif dist < 30:
+        if dist < 30:
             f = 1 - 0.4 * dist/30
         else:
             f = max_missed_score * (1 - (dist - 30) / (MAX_DISTANCE - 30))
 
     else:
         dist2 = MAX_DISTANCE - dist
-        if dist > 50:
-            f = 1 - 0.15 * dist2/(MAX_DISTANCE - 50)
-        elif dist > 31:
+        if dist > 31:
             f = 1 - 0.4 * dist2/(MAX_DISTANCE - 31)
         else:
             f = max_missed_score * dist / 31
@@ -166,7 +162,7 @@ if __name__ == "__main__":
 
     path = 'genom_struct.csv'
     init_population_size = 6000
-    population_size = 100
+    population_size = 150
     mutation_rate = 0.20
     num_iteratitions = 100
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
