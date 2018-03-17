@@ -161,7 +161,7 @@ if __name__ == "__main__":
     logger = logging.getLogger(GeneticAlgorithm.LOGGER_HANDLER_NAME)
 
     path = 'genom_struct.csv'
-    init_population_size = 6000
+    init_population_size = 2000
     population_size = 150
     mutation_rate = 0.20
     num_iteratitions = 100
