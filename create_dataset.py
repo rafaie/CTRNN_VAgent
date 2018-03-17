@@ -57,13 +57,14 @@ if __name__ == '__main__':
                 # x2 = int((-ENV_WIDTH / 2 + BODY_SIZE/2) +
                 #          (ENV_WIDTH - BODY_SIZE) / WIDTH_DIST * j)
                 x2 = int(-ENV_OBJ_X_MOVEMENT / 2.0 +
-                         (i) * ENV_OBJ_X_MOVEMENT / (WIDTH_DIST-1))
+                         (j) * ENV_OBJ_X_MOVEMENT / (WIDTH_DIST-1))
 
                 # for k in range(HIGHT_DIST):
                 #     y = int(ENV_MAX_HEIGHT -
                 #             (ENV_MAX_HEIGHT - ENV_MIN_HEIGHT) /
                 #             HIGHT_DIST * k)
                 y = ENV_BASE_HEIGHT
+                # print(x1,x2,y)
                 outfile_csv.writerow(gen_data(x1, x2, y, LINE))
                 outfile_csv.writerow(gen_data(x1, x2, y, CIRCLE))
 
