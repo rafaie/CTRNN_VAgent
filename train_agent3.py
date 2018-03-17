@@ -148,12 +148,12 @@ def calc_fitness(genom):
     me = np.mean(fitness)
     md = np.median(fitness)
     if md is None or (md == 0.5 and me == 0.5):
-        md = 0.0
+        me = 0.0
 
     logger.info('data2 = {} '.format(data2))
     logger.info('mean = {} and median = {} '.format(me, md))
 
-    return md
+    return me
 
 
 # Save the best 10 models!
