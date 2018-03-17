@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
     path = 'genom_struct.csv'
     init_population_size = 6000
-    population_size = 100
+    population_size = 150
     mutation_rate = 0.20
     num_iteratitions = 100
     crossover_type = GeneticAlgorithm.TWO_POINT_CROSSOVER
