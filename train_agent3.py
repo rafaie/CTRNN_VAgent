@@ -127,7 +127,7 @@ def run_process(data, agent, show_details=False):
     if obj_id == CIRCLE:
         f = 1 - f
     f = math.pow(f, 1.5)
-    
+
     dist2 = 0
     return [agent.positionX(), agent.positionY(), obj.positionX(),
             obj.positionY(), dist, dist2, f]
@@ -145,10 +145,15 @@ def calc_fitness(genom):
         fitness.append(f)
         data2.append(data + o)
 
+    me = np.mean(fitness)
+    md = np.median(fitness)
+    if md is None or (md == 0.5 and me == 0.5):
+        md = 0.0
+
     logger.info('data2 = {} '.format(data2))
-    logger.info('mean = {} and median = {} '.format(np.mean(fitness),
-                np.median(fitness)))
-    return np.mean(fitness)
+    logger.info('mean = {} and median = {} '.format(me, md))
+
+    return md
 
 
 # Save the best 10 models!
@@ -166,7 +171,7 @@ if __name__ == "__main__":
     logger = logging.getLogger(GeneticAlgorithm.LOGGER_HANDLER_NAME)
 
     path = 'genom_struct.csv'
-    init_population_size = 2000
+    init_population_size = 6000
     population_size = 150
     mutation_rate = 0.20
     num_iteratitions = 100
