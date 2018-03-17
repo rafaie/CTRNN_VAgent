@@ -109,20 +109,25 @@ def run_process(data, agent, show_details=False):
 
     dist = min(math.fabs(agent.positionX() - obj.positionX()), MAX_DISTANCE)
 
-    max_missed_score = 0.2
+    # max_missed_score = 0.2
+    # if obj_id == CIRCLE:
+    #     if dist < 30:
+    #         f = 1 - 0.4 * dist/30
+    #     else:
+    #         f = max_missed_score * (1 - (dist - 30) / (MAX_DISTANCE - 30))
+    #
+    # else:
+    #     dist2 = MAX_DISTANCE - dist
+    #     if dist > 31:
+    #         f = 1 - 0.4 * dist2/(MAX_DISTANCE - 31)
+    #     else:
+    #         f = max_missed_score * dist / 31
+
+    f = dist/MAX_DISTANCE
     if obj_id == CIRCLE:
-        if dist < 30:
-            f = 1 - 0.4 * dist/30
-        else:
-            f = max_missed_score * (1 - (dist - 30) / (MAX_DISTANCE - 30))
-
-    else:
-        dist2 = MAX_DISTANCE - dist
-        if dist > 31:
-            f = 1 - 0.4 * dist2/(MAX_DISTANCE - 31)
-        else:
-            f = max_missed_score * dist / 31
-
+        f = 1 - f
+    f = math.pow(f, 1.5)
+    
     dist2 = 0
     return [agent.positionX(), agent.positionY(), obj.positionX(),
             obj.positionY(), dist, dist2, f]
